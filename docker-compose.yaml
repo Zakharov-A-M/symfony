@@ -1,0 +1,57 @@
+version: "3"
+
+services:
+    app:
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        ports:
+            - "8000:80"
+
+    mysql:
+        image: mysql:5.7
+        ports:
+            - "3307:3306"
+        volumes:
+            - ./docker/mysqld-innodb.cnf:/etc/mysql/mysql.conf.d/mysqld-innodb.cnf:ro
+            - db1-data:/var/lib/mysql:delegated
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "200k"
+                max-file: "10"
+        environment:
+            MYSQL_USER: listings
+            MYSQL_PASSWORD: listings
+            MYSQL_DATABASE: listings
+            MYSQL_ROOT_PASSWORD: root
+        depends_on:
+            - app
+
+    rabbitmq:
+        image: rabbitmq:3.7.5-management-alpine
+        ports:
+            - "15672:15672"
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "200k"
+                max-file: "10"
+        environment:
+            RABBITMQ_DEFAULT_USER: guest
+            RABBITMQ_DEFAULT_PASS: guest
+        depends_on:
+            - app
+
+    redis:
+        image: redis:3.2-alpine
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "200k"
+                max-file: "10"
+        depends_on:
+            - app
+
+volumes:
+    db1-data:
