@@ -1,0 +1,4 @@
+App\Entity\Cars:
+    properties:
+        name:
+            - NotBlank: ~

@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 
 class AutoController extends AbstractController
@@ -14,7 +15,7 @@ class AutoController extends AbstractController
      *
      * @return Response
      */
-    public function getListCar(): Response
+    public function getListCar()
     {
         $cars = [
             'Audi' => 'Audi',
@@ -24,13 +25,21 @@ class AutoController extends AbstractController
             'Subaru' => 'Subaru'
         ];
 
-        return $this->render('auto/view.html.twig', [
+        $url = $this->generateUrl('cars_about', [
+                'slug' => 200
+            ]
+        );
+
+       return $this->redirectToRoute('cars_list_new_route');
+
+       /* return $this->render('auto/view.html.twig', [
             'cars' => $cars,
-        ]);
+            'url' => $url
+        ]);*/
     }
 
     /**
-     * @Route("/route/auto")
+     * @Route("/route/auto", name="cars_list_new_route")
      */
     public function getListNewRouting()
     {
