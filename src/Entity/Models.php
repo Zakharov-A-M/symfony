@@ -32,13 +32,21 @@ class Models
 
     /**
      * One model car has One release.
-     * @ORM\OneToOne(targetEntity="App\Entity\ReleasesAuto", mappedBy="models", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\ReleasesAuto", mappedBy="models", cascade={"persist", "remove"})
      */
-    private $release;
+    private $releases;
 
     public function __construct()
     {
-        $this->release = new ArrayCollection();
+        $this->releases = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection|Models[]
+     */
+    public function getReleases(): Collection
+    {
+        return $this->releases;
     }
 
     public function getId(): ?int
@@ -51,7 +59,7 @@ class Models
         return $this->name;
     }
 
-    public function setName(string $name): Model
+    public function setName(string $name): Models
     {
         $this->name = $name;
 
@@ -63,9 +71,9 @@ class Models
         return $this->brand;
     }
 
-    public function setBrand(Brands $brand): Model
+    public function setBrand(Brands $brand): Models
     {
-        $this->$brand = $brand;
+        $this->brand = $brand;
 
         return $this;
     }

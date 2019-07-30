@@ -18,7 +18,7 @@ class ReleasesAuto
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Models", inversedBy="releases_auto")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Models", inversedBy="releases_auto")
      * @ORM\JoinColumn(name="model_id", referencedColumnName="id")
      */
     private $model;
@@ -33,6 +33,16 @@ class ReleasesAuto
      */
     private $year_stop;
 
+    /**
+     * @ORM\Column(name="name", length=100, type="string", nullable=true)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(name="image", length=255, type="string")
+     */
+    private $image;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -43,7 +53,7 @@ class ReleasesAuto
         return $this->model;
     }
 
-    public function setModel(int $model): ReleasesAuto
+    public function setModel(Models $model): ReleasesAuto
     {
         $this->model = $model;
 
@@ -70,6 +80,30 @@ class ReleasesAuto
     public function setYearStop(?int $year_stop): ReleasesAuto
     {
         $this->year_stop = $year_stop;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): ReleasesAuto
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): ReleasesAuto
+    {
+        $this->image = $image;
 
         return $this;
     }
