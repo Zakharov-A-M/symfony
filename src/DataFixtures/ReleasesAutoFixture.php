@@ -7,14 +7,14 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use App\Entity\ReleasesAuto;
+use App\Entity\ReleaseAuto;
 
 class ReleasesAutoFixture extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
         foreach ($this->getData() as $data) {
-            $releaseAuto = new ReleasesAuto();
+            $releaseAuto = new ReleaseAuto();
             $releaseAuto->setName($data['name']);
             $releaseAuto->setImage($data['image']);
             $releaseAuto->setYearStart($data['yearStart']);

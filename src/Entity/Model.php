@@ -8,9 +8,9 @@ use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ModelRepository")
- * @ORM\Table(name="models")
+ * @ORM\Table(name="model")
  */
-class Models
+class Model
 {
     /**
      * @ORM\Id()
@@ -25,14 +25,14 @@ class Models
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Brands", inversedBy="brands")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Brand", inversedBy="brand")
      * @ORM\JoinColumn(name="brand_id", referencedColumnName="id")
      */
     private $brand;
 
     /**
      * One model car has One release.
-     * @ORM\OneToMany(targetEntity="App\Entity\ReleasesAuto", mappedBy="models", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\ReleaseAuto", mappedBy="model", cascade={"persist", "remove"})
      */
     private $releases;
 
@@ -42,7 +42,7 @@ class Models
     }
 
     /**
-     * @return Collection|Models[]
+     * @return Collection|Model[]
      */
     public function getReleases(): Collection
     {
@@ -59,19 +59,19 @@ class Models
         return $this->name;
     }
 
-    public function setName(string $name): Models
+    public function setName(string $name): Model
     {
         $this->name = $name;
 
         return $this;
     }
 
-    public function getBrand(): ?Brands
+    public function getBrand(): ?Brand
     {
         return $this->brand;
     }
 
-    public function setBrand(Brands $brand): Models
+    public function setBrand(Brand $brand): Model
     {
         $this->brand = $brand;
 

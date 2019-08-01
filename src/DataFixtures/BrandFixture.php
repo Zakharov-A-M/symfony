@@ -6,7 +6,7 @@ namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use App\Entity\Brands;
+use App\Entity\Brand;
 
 class BrandFixture extends Fixture
 {
@@ -24,7 +24,7 @@ class BrandFixture extends Fixture
     public function load(ObjectManager $manager): void
     {
         foreach ($this->getData() as $data) {
-            $brand = new Brands();
+            $brand = new Brand();
             $brand->setName($data['name']);
             $brand->setIcon($data['icon']);
 

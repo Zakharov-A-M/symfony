@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ReleasesAutoRepository")
- * @ORM\Table(name="releases_auto")
+ * @ORM\Table(name="release_auto")
  */
-class ReleasesAuto
+class ReleaseAuto
 {
     /**
      * @ORM\Id()
@@ -18,7 +18,7 @@ class ReleasesAuto
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Models", inversedBy="releases_auto")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Model", inversedBy="release_auto")
      * @ORM\JoinColumn(name="model_id", referencedColumnName="id")
      */
     private $model;
@@ -48,12 +48,12 @@ class ReleasesAuto
         return $this->id;
     }
 
-    public function getModel(): ?Models
+    public function getModel(): ?Model
     {
         return $this->model;
     }
 
-    public function setModel(Models $model): ReleasesAuto
+    public function setModel(Model $model): ReleaseAuto
     {
         $this->model = $model;
 
@@ -65,7 +65,7 @@ class ReleasesAuto
         return $this->year_start;
     }
 
-    public function setYearStart(int $year_start): ReleasesAuto
+    public function setYearStart(int $year_start): ReleaseAuto
     {
         $this->year_start = $year_start;
 
@@ -77,7 +77,7 @@ class ReleasesAuto
         return $this->year_stop;
     }
 
-    public function setYearStop(?int $year_stop): ReleasesAuto
+    public function setYearStop(?int $year_stop): ReleaseAuto
     {
         $this->year_stop = $year_stop;
 
@@ -89,7 +89,7 @@ class ReleasesAuto
         return $this->name;
     }
 
-    public function setName(string $name): ReleasesAuto
+    public function setName(string $name): ReleaseAuto
     {
         $this->name = $name;
 
@@ -101,7 +101,7 @@ class ReleasesAuto
         return $this->image;
     }
 
-    public function setImage(string $image): ReleasesAuto
+    public function setImage(string $image): ReleaseAuto
     {
         $this->image = $image;
 

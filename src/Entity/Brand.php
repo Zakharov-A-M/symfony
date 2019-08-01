@@ -7,10 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\BrandsRepository")
- * @ORM\Table(name="brands")
+ * @ORM\Entity(repositoryClass="App\Repository\BrandRepository")
+ * @ORM\Table(name="brand")
  */
-class Brands
+class Brand
 {
     /**
      * @ORM\Id()
@@ -30,7 +30,7 @@ class Brands
     private $icon;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Models", mappedBy="brands", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Model", mappedBy="brand", cascade={"persist", "remove"})
      */
     private $models;
 
@@ -40,7 +40,7 @@ class Brands
     }
 
     /**
-     * @return Collection|Models[]
+     * @return Collection|Model[]
      */
     public function getModels(): Collection
     {
@@ -57,7 +57,7 @@ class Brands
         return $this->name;
     }
 
-    public function setName(string $name): Brands
+    public function setName(string $name): Brand
     {
         $this->name = $name;
 
@@ -69,10 +69,20 @@ class Brands
         return $this->icon;
     }
 
-    public function setIcon(string $icon): Brands
+    public function setIcon(string $icon): Brand
     {
         $this->icon = $icon;
 
         return $this;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'icon' => $this->getIcon(),
+        ];
+    }
+
 }

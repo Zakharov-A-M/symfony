@@ -7,7 +7,7 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use App\Entity\Models;
+use App\Entity\Model;
 
 class ModelFixture extends Fixture implements DependentFixtureInterface
 {
@@ -25,7 +25,7 @@ class ModelFixture extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         foreach ($this->getData() as $data) {
-            $model = new Models();
+            $model = new Model();
             $model->setName($data['name']);
             $model->setBrand($data['brand']);
             $manager->persist($model);
