@@ -4,24 +4,35 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\Brand;
+use App\Factory\BrandFactory;
 use App\Repository\BrandRepository;
 
 class BrandService implements BrandServiceInterface
 {
     /**
-     * @var BrandRepository
+     * @var $brandRepository BrandRepository
      */
     private $brandRepository;
 
-    public function __construct(BrandRepository $brandRepository)
+    /**
+     * @var $brandFactory BrandFactory
+     */
+    private $brandFactory;
+
+    public function __construct(BrandRepository $brandRepository, BrandFactory $brandFactory)
     {
         $this->brandRepository = $brandRepository;
+        $this->brandFactory = $brandFactory;
     }
 
     public function create(array $brand): Brand
     {
-        
+        $brand = $this->brandFactory->createEntity($brand);
+        $this->brandRepository->save($brand);
+
+        return $brand;
     }
 
     /**
@@ -55,14 +66,9 @@ class BrandService implements BrandServiceInterface
             $criteria = [$searchField => $searchKeyword];  
         }
 
-        $brands = $this->brandRepository->findBy($criteria, ['name' => 'DESC'], $limit, $offset);
-
-        return array_map(
-            function (Brand $brand) {
-                return $brand->toArray();
-            },
-            (array) $brands
-        );
+        $brands = $this->brandRepository->findBy($criteria, ['name' => 'DESC'], $limit, $offset) ;
+        $arrayCollection = new ArrayCollection($brands);
+        return $arrayCollection->toArray();
     }
 
     /**

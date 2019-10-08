@@ -5,9 +5,10 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\BrandRepository")
+ * @ORM\Entity
  * @ORM\Table(name="brand")
  */
 class Brand
@@ -31,6 +32,7 @@ class Brand
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Model", mappedBy="brand", cascade={"persist", "remove"})
+     * @MaxDepth(1)
      */
     private $models;
 
@@ -75,14 +77,4 @@ class Brand
 
         return $this;
     }
-
-    public function toArray(): array
-    {
-        return [
-            'id' => $this->getId(),
-            'name' => $this->getName(),
-            'icon' => $this->getIcon(),
-        ];
-    }
-
 }

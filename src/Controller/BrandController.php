@@ -40,7 +40,7 @@ class BrandController extends AbstractController
         $searchKeyword = $request->query->get('search_keyword', '');
         $result  = $this->brandService->list($offset, $limit, $searchField, $searchKeyword);
 
-        return new JsonResponse(($result), Response::HTTP_OK);
+        return $this->json($result, Response::HTTP_OK);
     }
 
     /**
