@@ -9,4 +9,8 @@
 
  php bin/console make:fixtures
  php bin/console doctrine:fixtures:load
-  php bin/console doctrine:schema:update --force
+ ./bin/console doctrine:schema:update --force
+
+
+ docker exec -it symfony-app /bin/bash
+ docker-compose up -d --build
