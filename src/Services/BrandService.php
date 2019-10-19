@@ -1,108 +1,49 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Services;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use App\ApiResponseDTO\Brand as BrandDTO;
 use App\Entity\Brand;
 use App\Factory\BrandFactory;
-use App\Repository\BrandRepository;
+use App\Traits\ValidatorAwareTrait;
+use Doctrine\ORM\EntityManagerInterface;
 
-class BrandService implements BrandServiceInterface
+class BrandService
 {
-    /**
-     * @var $brandRepository BrandRepository
-     */
-    private $brandRepository;
+    use ValidatorAwareTrait;
 
-    /**
-     * @var $brandFactory BrandFactory
-     */
-    private $brandFactory;
+    /** @var  EntityManagerInterface */
+    private $entityManager;
 
-    public function __construct(BrandRepository $brandRepository, BrandFactory $brandFactory)
+    /** @var BrandFactory */
+    private $factoryBrand;
+
+    public function __construct(EntityManagerInterface $entityManager, BrandFactory $factoryBrand)
     {
-        $this->brandRepository = $brandRepository;
-        $this->brandFactory = $brandFactory;
-    }
-
-    public function create(array $brand): Brand
-    {
-        $brand = $this->brandFactory->createEntity($brand);
-        $this->brandRepository->save($brand);
-
-        return $brand;
+        $this->entityManager = $entityManager;
+        $this->factoryBrand = $factoryBrand;
     }
 
     /**
-     * Update information for brand Id
-     *
-     * @param int $id
-     * @param array $info
-     * @return Brand
-     * @throws \Exception
-     */
-    public function update(int $id, array $info): Brand
-    {
-        $brand = $this->load($id);
-        $brand->setName($info['name'])->setIcon($info['icon']);
-        return $brand;
-    }
-
-    /**
-     * Get list brand
-     *
-     * @param int $offset
+     * @param int $page
      * @param int $limit
-     * @param string $searchField
-     * @param string $searchKeyword
-     * @return iterable
+     * @param string|null $keyword
      */
-    public function list(int $offset = 0, int $limit = 10, string $searchField = '', string $searchKeyword = ''): iterable
+    public function getListBrand(int $page, int $limit, ?string $keyword)
     {
-        $criteria = [];
-        if ($searchField && $searchKeyword) {
-            $criteria = [$searchField => $searchKeyword];  
-        }
 
-        $brands = $this->brandRepository->findBy($criteria, ['name' => 'DESC'], $limit, $offset) ;
-        $arrayCollection = new ArrayCollection($brands);
-        return $arrayCollection->toArray();
     }
 
     /**
-     * Remove brand Id
-     *
-     * @param int $id
-     * @throws \Exception
+     * @param BrandDTO $dto
      */
-    public function remove(int $id): void
+    public function createBrand(BrandDTO $dto): void
     {
-        $brand = $this->brandRepository->find($id);
+        $this->validate($dto);
 
-        if (!$brand instanceof Brand) {
-            throw new \Exception('The Brand was not found.');
-        }
+        $brand = $this->factoryBrand->createBrand($dto->getBrand(), $dto->getIcon());
 
-        $this->brandRepository->remove($brand);
-    }
-
-    /**
-     * Get brand Id
-     *
-     * @param int $id
-     * @return Brand
-     * @throws \Exception
-     */
-    public function load(int $id): Brand
-    {
-        $brand = $this->brandRepository->find($id);
-    
-        if (!$brand instanceof Brand) {
-            throw new \Exception('The Brand was not found.');
-        }
-
-        return $brand;
+        $this->entityManager->persist($brand);
+        $this->entityManager->flush();
     }
 }

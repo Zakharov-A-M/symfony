@@ -4,7 +4,7 @@ services:
 
     symfony-nginx:
       container_name: symfony-nginx
-      image: nginx:latest
+      image: nginx:alpine
       ports:
           - "8082:80"
       working_dir: /application
@@ -23,15 +23,31 @@ services:
 
     symfony-db:
         container_name: symfony-db
-        image: postgres:12.0-alpine
+        image: mysql:5.7
 #        volumes:
-#            - symfony-db-data:/var/lib/postgresql/data
+#            - symfony-db-data:/var/lib/mysql
         ports:
-            - "5432:5432"
+            - "8003:3306"
         environment:
-            POSTGRES_USER: symfony
-            POSTGRES_PASSWORD: symfony
-            POSTGRES_DB: symfony
+            MYSQL_USER: symfony
+            MYSQL_PASSWORD: symfony
+            MYSQL_DATABASE: symfony
+            MYSQL_ROOT_PASSWORD: root
+
+#volumes:
+#    symfony-db-data:
+
+#    symfony-db:
+#        container_name: symfony-db
+#        image: postgres:12.0-alpine
+##        volumes:
+##            - symfony-db-data:/var/lib/postgresql/data
+#        ports:
+#            - "5432:5432"
+#        environment:
+#            POSTGRES_USER: symfony
+#            POSTGRES_PASSWORD: symfony
+#            POSTGRES_DB: symfony
 
 #volumes:
 #  symfony-db-data:

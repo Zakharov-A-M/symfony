@@ -1,19 +1,24 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Factory;
 
 use App\Entity\Brand;
 
+/**
+ * Class BrandFactory
+ */
 class BrandFactory
 {
-    public function createEntity(array $informationBrand): Brand
+    /**
+     * @param string $name
+     * @param string $icon
+     *
+     * @return Brand
+     */
+    public function createBrand(string $name, string $icon): Brand
     {
-        $category = new Brand();
-        $category->setName($informationBrand['name']);
-        $category->setIcon($informationBrand['icon']);
-
-        return $category;
+        return (new Brand())
+            ->setName($name)
+            ->setIcon($icon);
     }
 }

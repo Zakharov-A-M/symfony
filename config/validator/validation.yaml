@@ -1,4 +1,12 @@
-App\Entity\Cars:
+App\ApiResponseDTO\Brand:
     properties:
-        name:
+        brand:
+            - NotBlank: ~
+            - App\Validator\Constraints\ConstraintUniqueBrand: ~
+            - Length:
+                  min: 3
+                  max: 25
+                  minMessage: 'Your name brand must be at least {{ limit }} characters long'
+                  maxMessage: 'Your name brand cannot be longer than {{ limit }} characters'
+        icon:
             - NotBlank: ~

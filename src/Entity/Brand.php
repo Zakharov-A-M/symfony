@@ -36,11 +36,6 @@ class Brand
      */
     private $models;
 
-    public function __construct()
-    {
-        $this->models = new ArrayCollection();
-    }
-
     /**
      * @return Collection|Model[]
      */
@@ -49,6 +44,9 @@ class Brand
         return $this->models;
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +57,11 @@ class Brand
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     *
+     * @return Brand
+     */
     public function setName(string $name): Brand
     {
         $this->name = $name;
@@ -66,11 +69,19 @@ class Brand
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getIcon(): ?string
     {
         return $this->icon;
     }
 
+    /**
+     * @param string $icon
+     *
+     * @return Brand
+     */
     public function setIcon(string $icon): Brand
     {
         $this->icon = $icon;

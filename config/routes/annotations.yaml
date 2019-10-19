@@ -1,6 +1,4 @@
 controllers:
     resource: ../../src/Controller/
     type: annotation
-    prefix:
-      en: ''
-      nl: '/nl'
+    prefix: /api/v1

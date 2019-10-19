@@ -26,7 +26,7 @@ php-unit:
 	# 	 ./vendor/bin/phpunit tests/
 
 wait-for-db:
-	$(EXEC) php -r "set_time_limit(60);for(;;){if(@fsockopen('symfony-db',5432)){echo \"db ready\n\"; break;}echo \"Waiting for db\n\";sleep(1);}"
+	$(EXEC) php -r "set_time_limit(60);for(;;){if(@fsockopen('symfony-db',3306)){echo \"db ready\n\"; break;}echo \"Waiting for db\n\";sleep(1);}"
 
 db: vendor wait-for-db
 	$(EXEC) ./bin/console doctrine:migrations:migrate -n
