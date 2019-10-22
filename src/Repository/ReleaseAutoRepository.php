@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Model;
 use App\Entity\ReleaseAuto;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -18,5 +19,22 @@ class ReleaseAutoRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ReleaseAuto::class);
     }
-    
+
+    /**
+     * @param int $yearStart
+     *
+     * @return mixed
+     */
+    public function getReleaseAutoFromDate(int $yearStart): array
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.year_start >= :year_start')
+            ->orderBy('r.id', 'ASC')
+            ->setParameter('year_start', $yearStart)
+            ->innerJoin(Model::class, 'm')
+            ->andWhere('r.model = m.id')
+            ->getQuery()
+            ->getResult();
+    }
+
 }

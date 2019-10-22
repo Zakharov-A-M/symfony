@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity
@@ -22,11 +23,13 @@ class Brand
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("group3")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups("group3")
      */
     private $icon;
 

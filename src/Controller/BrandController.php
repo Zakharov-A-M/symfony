@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\ApiResponseDTO\Brand;
+use App\ApiResponseDTO\Brand as BrandDTO;
+use App\Entity\Brand;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Services\BrandService;
@@ -46,6 +47,29 @@ class BrandController extends AbstractController
         return $this->json($result, JsonResponse::HTTP_OK);
     }
 
+   /* /**
+     * @Route("/show/{name}", methods={"GET"})
+     * @param Brand $brand
+     *
+     * @return JsonResponse
+     */
+    /*public function showBrandName(Brand $brand): JsonResponse
+    {
+        return $this->json($brand->getName(), JsonResponse::HTTP_OK);
+    }*/
+
+    /**
+     * @Route("/show/{id}", methods={"GET"})
+     * @param Brand $brand
+     *
+     * @return JsonResponse
+     */
+    public function showBrand(Brand $brand): JsonResponse
+    {
+        $infoBrand = $this->brandService->fetchBrandData($brand);
+        return $this->json($infoBrand, JsonResponse::HTTP_OK);
+    }
+
     /**
      * @Route("/create", methods={"POST"})
      *
@@ -55,10 +79,10 @@ class BrandController extends AbstractController
      */
     public function create(Request $request): JsonResponse
     {
-        /** @var Brand $input */
+        /** @var BrandDTO $input */
         $input = $this->get('serializer')->deserialize(
             $request->getContent(),
-            Brand::class,
+            BrandDTO::class,
             'json'
         );
 
@@ -69,5 +93,21 @@ class BrandController extends AbstractController
         }
 
         return $this->json(['payload' => 'Done save!'], JsonResponse::HTTP_OK);
+    }
+
+    /**
+     * @Route("/show-date/{date}", methods={"GET"})
+     * @param int $date
+     *
+     * @return JsonResponse
+     *
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+    public function getModelsFromYear(int $date): JsonResponse
+    {
+        $releases = $this->brandService->getModelRelease($date);
+
+        return $this->json($releases, JsonResponse::HTTP_OK);
+
     }
 }
